@@ -1,0 +1,24 @@
+{
+  "name": "command-line-portfolio-mgr",
+  "version": "0.0.1",
+  "description": "simple command line portfolio manager based off of csv transaction and external api for fetching prices ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ll000ll/command-line-portfolio-mgr.git"
+  },
+  "author": "ll000ll",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ll000ll/command-line-portfolio-mgr/issues"
+  },
+  "homepage": "https://github.com/ll000ll/command-line-portfolio-mgr#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "nodemon": "^2.0.20"
+  }
+}
