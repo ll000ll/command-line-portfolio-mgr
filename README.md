@@ -48,3 +48,4 @@ Portfolio means the balance of the token where you need to add deposits and subt
 - should we use big data DB like Hadoop or Cassandra if the number of tokens is large and the number of transactions is large.
 - if we use RDbMS, should we use ORM, or just use the DB directly
 - once we have some analytics, should we allow for hybrid ways of querying data, like in-memory json-like searches for the latest data, and RDBMS for older data.
+- cryptocompare.com API is free, but it has a limit. Should we establish a process for tracking the limit and alerting if we are close to it?
