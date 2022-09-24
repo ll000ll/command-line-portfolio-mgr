@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js"
 import createReadStream from "./createReadStream"
 import { getPriceFromApi } from "./apiFetcher"
 import { defaultSeed } from "./defaultValues"
+import { tokenPriceMultiplier, tokensAmountsPrinter } from "./utils/tokenUtils"
 
 const rl = createReadStream(defaultSeed.folder, defaultSeed.file)
 
@@ -53,8 +54,31 @@ const getReportByDateAndToken = async (
   )
 }
 
-const getReportByDate = (date: number) => {
-  throw new Error("Function getReportByDate not implemented.")
+const getReportByDate = async (date: number) => {
+  const tokens: any = {}
+
+  for await (const line of rl) {
+    const [timestamp, transaction_type, token, amount] = line.split(",")
+
+    if (!(token in tokens)) {
+      // TODO dynamically update the crypto compare api url to support other than the hardcoded tokens
+      tokens[token] = new BigNumber(0)
+    }
+    if (parseInt(timestamp) <= date) {
+      if (transaction_type === "DEPOSIT") {
+        tokens[token] = tokens[token].plus(amount)
+      }
+      if (transaction_type === "WITHDRAWAL") {
+        tokens[token] = tokens[token].minus(amount)
+      }
+    }
+  }
+
+  const tokensAmountsInUSD = tokenPriceMultiplier(
+    tokens,
+    await getPriceFromApi()
+  )
+  tokensAmountsPrinter(tokensAmountsInUSD)
 }
 
 const getReportByToken = async (tokenRequested: string) => {
@@ -85,10 +109,5 @@ const getReportByToken = async (tokenRequested: string) => {
 }
 
 const getReportForEntirePortfolio = () => {
-  // const tokens: string[] = []
-
-  // if (!tokens.includes(token)) {
-  //   tokens.push(token)
-  // }
   throw new Error("Function getReportForEntirePortfolio not implemented.")
 }

@@ -49,7 +49,7 @@ export const processReportCallForArgs = (argv: allowedArgvs) => {
     console.log(`The token selected is: ${argv.token}`)
     processReport(undefined, argv.token)
   } else if (argv.date) {
-    console.log(`The date is:${argv.date}`)
+    console.log(`The date is:${argv.date}. No token is provided.`)
     processReport(argv.date)
   }
 }
