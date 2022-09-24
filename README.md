@@ -49,3 +49,8 @@ Portfolio means the balance of the token where you need to add deposits and subt
 - if we use RDbMS, should we use ORM, or just use the DB directly
 - once we have some analytics, should we allow for hybrid ways of querying data, like in-memory json-like searches for the latest data, and RDBMS for older data.
 - cryptocompare.com API is free, but it has a limit. Should we establish a process for tracking the limit and alerting if we are close to it?
+
+### updates
+
+- "version": "0.1.1" - we can now query for a token at a given date (provided in since Epoch format)
+Note: the query takes 30-45 seconds to complete for the test set of 30M records in the csv file
