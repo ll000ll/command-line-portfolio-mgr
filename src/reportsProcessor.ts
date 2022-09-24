@@ -30,7 +30,7 @@ const getReportByDateAndToken = async (
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
-    if (parseInt(timestamp) >= date) {
+    if (parseInt(timestamp) <= date) {
       if (tokenRequested === token) {
         if (transaction_type === "DEPOSIT") {
           tokenAmount = tokenAmount.plus(amount)
@@ -45,8 +45,9 @@ const getReportByDateAndToken = async (
   const tokenPrices = await getPriceFromApi()
   const requestedTokenPrice = tokenPrices[tokenRequested].USD
 
+  console.log(`You have ${tokenAmount} ${tokenRequested}`)
   console.log(
-    `Current value of ${tokenRequested} in portfolio is ${tokenAmount.multipliedBy(
+    `Current value of ${tokenRequested} in portfolio up until the date ${date} is ${tokenAmount.multipliedBy(
       new BigNumber(requestedTokenPrice)
     )} USD`
   )
@@ -56,8 +57,31 @@ const getReportByDate = (date: number) => {
   throw new Error("Function getReportByDate not implemented.")
 }
 
-const getReportByToken = (token: string) => {
-  throw new Error("Function getReportByToken not implemented.")
+const getReportByToken = async (tokenRequested: string) => {
+  let tokenAmount = new BigNumber(0)
+
+  for await (const line of rl) {
+    const [timestamp, transaction_type, token, amount] = line.split(",")
+
+    if (tokenRequested === token) {
+      if (transaction_type === "DEPOSIT") {
+        tokenAmount = tokenAmount.plus(amount)
+      }
+      if (transaction_type === "WITHDRAWAL") {
+        tokenAmount = tokenAmount.minus(amount)
+      }
+    }
+  }
+
+  const tokenPrices = await getPriceFromApi()
+  const requestedTokenPrice = tokenPrices[tokenRequested].USD
+
+  console.log(`You have ${tokenAmount} ${tokenRequested}`)
+  console.log(
+    `Current value of ${tokenRequested} in portfolio is ${tokenAmount.multipliedBy(
+      new BigNumber(requestedTokenPrice)
+    )} USD`
+  )
 }
 
 const getReportForEntirePortfolio = () => {

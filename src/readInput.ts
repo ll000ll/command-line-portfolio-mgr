@@ -43,7 +43,7 @@ export const processReportCallForArgs = (argv: allowedArgvs) => {
       console.log("This may take a while...")
     }, 6000)
   } else if (argv.token && argv.date) {
-    console.log(`Generating report for provided ${argv.token} and ${argv.date}`)
+    console.log(`Generating report for provided ${argv.token} and ${argv.date}...`)
     processReport(argv.date, argv.token)
   } else if (argv.token) {
     console.log(`The token selected is: ${argv.token}`)
