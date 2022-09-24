@@ -1,6 +1,6 @@
 {
   "name": "command-line-portfolio-mgr",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "simple command line portfolio manager based off of csv transaction and external api for fetching prices ",
   "main": "app.js",
   "scripts": {

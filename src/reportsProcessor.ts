@@ -26,6 +26,7 @@ const getReportByDateAndToken = async (
   date: number,
   tokenRequested: string
 ) => {
+  console.time(__filename)
   let tokenAmount = new BigNumber(0)
 
   for await (const line of rl) {
@@ -52,11 +53,13 @@ const getReportByDateAndToken = async (
       new BigNumber(requestedTokenPrice)
     )} USD`
   )
+  console.timeEnd(__filename)
 }
 
 const getReportByDate = async (date: number) => {
   const tokens: any = {}
 
+  console.time(__filename)
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
@@ -79,11 +82,13 @@ const getReportByDate = async (date: number) => {
     await getPriceFromApi()
   )
   tokensAmountsPrinter(tokensAmountsInUSD)
+  console.timeEnd(__filename)
 }
 
 const getReportByToken = async (tokenRequested: string) => {
   let tokenAmount = new BigNumber(0)
 
+  console.time(__filename)
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
@@ -106,8 +111,33 @@ const getReportByToken = async (tokenRequested: string) => {
       new BigNumber(requestedTokenPrice)
     )} USD`
   )
+  console.timeEnd(__filename)
 }
 
-const getReportForEntirePortfolio = () => {
-  throw new Error("Function getReportForEntirePortfolio not implemented.")
+const getReportForEntirePortfolio = async () => {
+  const tokens: any = {}
+
+  console.time(__filename)
+  for await (const line of rl) {
+    const [timestamp, transaction_type, token, amount] = line.split(",")
+
+    if (!(token in tokens)) {
+      // TODO dynamically update the crypto compare api url to support other than the hardcoded tokens
+      tokens[token] = new BigNumber(0)
+    }
+
+    if (transaction_type === "DEPOSIT") {
+      tokens[token] = tokens[token].plus(amount)
+    }
+    if (transaction_type === "WITHDRAWAL") {
+      tokens[token] = tokens[token].minus(amount)
+    }
+  }
+
+  const tokensAmountsInUSD = tokenPriceMultiplier(
+    tokens,
+    await getPriceFromApi()
+  )
+  tokensAmountsPrinter(tokensAmountsInUSD)
+  console.timeEnd(__filename)
 }

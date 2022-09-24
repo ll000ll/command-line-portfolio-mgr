@@ -56,3 +56,4 @@ Portfolio means the balance of the token where you need to add deposits and subt
   Note: the query takes 30-45 seconds to complete for the test set of 30M records in the csv file
 - version: 0.1.2 - we now support query by token only
 - version: 0.1.3 - we now support query by date only
+- version: 0.1.4 - we now support query with no args provided
