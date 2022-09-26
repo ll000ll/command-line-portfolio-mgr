@@ -16,6 +16,16 @@ The CSV file has the following columns
 
 Portfolio means the balance of the token where you need to add deposits and subtract withdrawals. You may obtain the exchange rates from [cryptocompare](https://min-api.cryptocompare.com/) where the API is free. You should write it in Node.js as our main stack is in Javascript/Typescript and we need to assess your proficiency.
 
+## How to run with test data 
+Run one of the following commands:
+> tsc & node dist/index.js --t=ETH --d=1571966641
+> tsc & node dist/index.js --t=ETH
+> tsc & node dist/index.js --d=1571966641
+> tsc & node dist/index.js
+
+### Performance
+Version 0.1.4 takes ~75 seconds to run on a set of 33 M rows in the CSV file, on a 'standard' laptop.
+
 ### some thoughts during the initial phase of the development:
 
 - The original file is too large to be included in the repo. Too big probably to handle in memory - 30M records? Does working with a sample of the data make sense?
