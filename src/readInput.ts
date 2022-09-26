@@ -4,8 +4,8 @@ import { hideBin } from "yargs/helpers"
 import { processReport } from "./reportsProcessor"
 
 interface allowedArgvs {
-  token: string | undefined
-  date: number | undefined
+  token?: string | undefined
+  date?: number | undefined
   help?: string
 }
 

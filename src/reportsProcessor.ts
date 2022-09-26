@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js"
 
 import createReadStream from "./createReadStream"
 import { getPriceFromApi } from "./apiFetcher"
-import { defaultSeed } from "./defaultValues"
+import { defaultSeed, defaultReportName } from "./defaultValues"
 import { tokenPriceMultiplier, tokensAmountsPrinter } from "./utils/tokenUtils"
 
 const rl = createReadStream(defaultSeed.folder, defaultSeed.file)
@@ -26,7 +26,7 @@ const getReportByDateAndToken = async (
   date: number,
   tokenRequested: string
 ) => {
-  console.time(__filename)
+  console.time(defaultReportName)
   let tokenAmount = new BigNumber(0)
 
   for await (const line of rl) {
@@ -53,13 +53,13 @@ const getReportByDateAndToken = async (
       new BigNumber(requestedTokenPrice)
     )} USD`
   )
-  console.timeEnd(__filename)
+  console.timeEnd(defaultReportName)
 }
 
 const getReportByDate = async (date: number) => {
   const tokens: any = {}
 
-  console.time(__filename)
+  console.time(defaultReportName)
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
@@ -82,13 +82,13 @@ const getReportByDate = async (date: number) => {
     await getPriceFromApi()
   )
   tokensAmountsPrinter(tokensAmountsInUSD)
-  console.timeEnd(__filename)
+  console.timeEnd(defaultReportName)
 }
 
 const getReportByToken = async (tokenRequested: string) => {
   let tokenAmount = new BigNumber(0)
 
-  console.time(__filename)
+  console.time(defaultReportName)
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
@@ -111,13 +111,13 @@ const getReportByToken = async (tokenRequested: string) => {
       new BigNumber(requestedTokenPrice)
     )} USD`
   )
-  console.timeEnd(__filename)
+  console.timeEnd(defaultReportName)
 }
 
 const getReportForEntirePortfolio = async () => {
   const tokens: any = {}
 
-  console.time(__filename)
+  console.time(defaultReportName)
   for await (const line of rl) {
     const [timestamp, transaction_type, token, amount] = line.split(",")
 
@@ -139,5 +139,5 @@ const getReportForEntirePortfolio = async () => {
     await getPriceFromApi()
   )
   tokensAmountsPrinter(tokensAmountsInUSD)
-  console.timeEnd(__filename)
+  console.timeEnd(defaultReportName)
 }
